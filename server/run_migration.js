@@ -1,0 +1,20 @@
+import { query } from './src/db/pool.js';
+import fs from 'fs';
+import path from 'path';
+
+async function runMigration() {
+  try {
+    const sqlPath = path.resolve('../database/migrations/004_settings.sql');
+    const sql = fs.readFileSync(sqlPath, 'utf8');
+    
+    console.log('Running migration...');
+    await query(sql);
+    console.log('Migration successful!');
+    process.exit(0);
+  } catch (err) {
+    console.error('Migration failed:', err);
+    process.exit(1);
+  }
+}
+
+runMigration();

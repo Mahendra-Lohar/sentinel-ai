@@ -1,0 +1,16 @@
+{
+  "rootCause": "Redis memory exhaustion caused by the coupon caching deployment without TTL.",
+  "confidence": 96,
+  "immediateActions": [
+    "Rollback commit 8fd92ab",
+    "Flush coupon cache keys",
+    "Restart Redis after rollback",
+    "Post customer-facing status update"
+  ],
+  "businessImpact": {
+    "revenueLossPerHour": 48000,
+    "affectedUsers": 24892,
+    "severity": "P1",
+    "estimatedMttrMinutes": 6
+  }
+}

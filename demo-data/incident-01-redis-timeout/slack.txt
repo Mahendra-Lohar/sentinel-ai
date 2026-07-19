@@ -1,0 +1,5 @@
+#incident-checkout
+09:02 Priya: Checkout is failing for multiple users. Seeing Redis timeout in logs.
+09:03 Arjun: Did anyone change cache behavior in the latest deploy?
+09:04 Maya: Grafana shows Redis memory at 99% and error rate near 48%.
+09:05 Priya: Customer support reports payments deducted but orders not created.

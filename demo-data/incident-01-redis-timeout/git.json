@@ -1,0 +1,10 @@
+{
+  "deployment": {
+    "commit": "8fd92ab",
+    "author": "release-bot",
+    "completedAt": "2026-07-15T08:45:02Z",
+    "title": "Add coupon caching to checkout flow",
+    "filesChanged": ["server/src/services/couponCache.js", "server/src/routes/checkout.js"]
+  },
+  "diffSummary": "Introduced Redis-backed coupon cache without TTL on campaign keys."
+}

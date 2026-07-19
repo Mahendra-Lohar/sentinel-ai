@@ -1,0 +1,36 @@
+{
+  "name": "sentinel-ai-client",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/inter": "^5.2.8",
+    "@mui/icons-material": "^9.2.0",
+    "@mui/material": "^9.2.0",
+    "@tanstack/react-query": "^5.101.2",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@xyflow/react": "^12.11.2",
+    "axios": "^1.7.2",
+    "framer-motion": "^11.3.19",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^6.25.1",
+    "recharts": "^3.9.2",
+    "socket.io-client": "^4.7.5",
+    "vite": "^5.3.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2"
+  }
+}

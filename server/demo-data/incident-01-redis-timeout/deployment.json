@@ -1,0 +1,36 @@
+{
+  "deployment": {
+    "id": "deploy-20240315-0858",
+    "timestamp": "2024-03-15T08:58:00Z",
+    "author": "maria.santos@company.com",
+    "service": "checkout-service",
+    "version": "v2.14.1",
+    "previous_version": "v2.14.0",
+    "environment": "production",
+    "status": "success"
+  },
+  "commits": [
+    {
+      "sha": "a8f2c91b",
+      "timestamp": "2024-03-15T08:30:00Z",
+      "author": "maria.santos@company.com",
+      "message": "feat: Add aggressive session caching to reduce DB load",
+      "files_changed": ["src/services/SessionService.js", "src/config/redis.config.js"],
+      "diff_summary": "+  this.redis.set(key, value, 'EX', 86400); // cache for 24 hours\n-  this.redis.set(key, value, 'EX', 300); // cache for 5 min\n+ // Removed TTL expiry for user cart items to improve performance"
+    },
+    {
+      "sha": "b1d9e3f2",
+      "timestamp": "2024-03-14T16:20:00Z",
+      "author": "alex.chen@company.com",
+      "message": "fix: Resolve race condition in order processing",
+      "files_changed": ["src/services/OrderService.js"]
+    }
+  ],
+  "config_changes": {
+    "redis.config.js": {
+      "maxmemory-policy": "allkeys-lru",
+      "maxmemory": "8gb",
+      "session_ttl_seconds": "removed (was 300)"
+    }
+  }
+}
