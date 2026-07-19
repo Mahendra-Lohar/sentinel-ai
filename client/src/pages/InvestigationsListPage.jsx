@@ -106,15 +106,17 @@ export function InvestigationsListPage() {
                 <TableBody>
                   <AnimatePresence>
                     {investigations.map((inv, i) => (
-                      <motion.tr key={inv.id}
+                      <TableRow key={inv.id}
+                        component={motion.tr}
                         initial={{ opacity: 0, y: 4 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
                         transition={{ delay: i * 0.03 }}
-                        style={{ cursor: 'pointer' }}
-                        component="tr"
+                        hover
+                        sx={{ cursor: 'pointer', '&:last-child td, &:last-child th': { border: 0 } }}
+                        onClick={() => navigate(`/investigations/${inv.id}`)}
                       >
-                        <TableCell onClick={() => navigate(`/investigations/${inv.id}`)}>
+                        <TableCell>
                           <Typography variant="body2" fontWeight={600}>{inv.title}</Typography>
                           {inv.description && (
                             <Typography variant="caption" color="text.secondary">
@@ -150,7 +152,7 @@ export function InvestigationsListPage() {
                             </IconButton>
                           </Tooltip>
                         </TableCell>
-                      </motion.tr>
+                      </TableRow>
                     ))}
                   </AnimatePresence>
                 </TableBody>

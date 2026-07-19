@@ -1,12 +1,13 @@
 import { query } from '../db/pool.js';
 
-export async function listInvestigations({ status, severity, search } = {}) {
+export async function listInvestigations({ status, severity, search, createdBy } = {}) {
   let conditions = [];
   let params = [];
   let idx = 1;
 
   if (status) { conditions.push(`status = $${idx++}`); params.push(status); }
   if (severity) { conditions.push(`severity = $${idx++}`); params.push(severity); }
+  if (createdBy) { conditions.push(`created_by = $${idx++}`); params.push(createdBy); }
   if (search) { conditions.push(`(title ILIKE $${idx} OR description ILIKE $${idx++})`); params.push(`%${search}%`); }
 
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
@@ -32,14 +33,19 @@ export async function createInvestigation({ title, description, severity, scenar
   return result.rows[0];
 }
 
-export async function getInvestigation(id) {
-  const result = await query(
-    `SELECT i.*, u.name AS created_by_name, u.email AS created_by_email
-     FROM investigations i
-     LEFT JOIN users u ON u.id = i.created_by
-     WHERE i.id = $1`,
-    [id]
-  );
+export async function getInvestigation(id, createdBy = null) {
+  let queryStr = `SELECT i.*, u.name AS created_by_name, u.email AS created_by_email
+                  FROM investigations i
+                  LEFT JOIN users u ON u.id = i.created_by
+                  WHERE i.id = $1`;
+  let params = [id];
+  
+  if (createdBy) {
+    queryStr += ` AND i.created_by = $2`;
+    params.push(createdBy);
+  }
+  
+  const result = await query(queryStr, params);
   return result.rows[0] || null;
 }
 

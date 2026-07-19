@@ -14,7 +14,7 @@ const createSchema = z.object({
 
 export async function list(req, res) {
   const { status, severity, search } = req.query;
-  const investigations = await repo.listInvestigations({ status, severity, search });
+  const investigations = await repo.listInvestigations({ status, severity, search, createdBy: req.user.id });
   res.json({ investigations });
 }
 
@@ -30,7 +30,7 @@ export async function create(req, res) {
 }
 
 export async function get(req, res) {
-  const investigation = await repo.getInvestigation(req.params.id);
+  const investigation = await repo.getInvestigation(req.params.id, req.user.id);
   if (!investigation) return res.status(404).json({ error: 'Investigation not found' });
 
   const results = await repo.getInvestigationResults(req.params.id);
@@ -38,7 +38,7 @@ export async function get(req, res) {
 }
 
 export async function remove(req, res) {
-  const investigation = await repo.getInvestigation(req.params.id);
+  const investigation = await repo.getInvestigation(req.params.id, req.user.id);
   if (!investigation) return res.status(404).json({ error: 'Investigation not found' });
   await repo.deleteInvestigation(req.params.id);
   res.status(204).send();
@@ -50,7 +50,7 @@ export async function remove(req, res) {
  * exactly like a real upload. The AI investigates them as real evidence.
  */
 export async function loadDemo(req, res) {
-  const investigation = await repo.getInvestigation(req.params.id);
+  const investigation = await repo.getInvestigation(req.params.id, req.user.id);
   if (!investigation) return res.status(404).json({ error: 'Investigation not found' });
 
   const demoId = req.params.scenarioId || 'incident-01-redis-timeout';
@@ -138,7 +138,7 @@ export async function loadDemo(req, res) {
 }
 
 export async function launch(req, res) {
-  const investigation = await repo.getInvestigation(req.params.id);
+  const investigation = await repo.getInvestigation(req.params.id, req.user.id);
   if (!investigation) return res.status(404).json({ error: 'Investigation not found' });
 
   if (investigation.status === 'investigating') {
@@ -169,7 +169,7 @@ export async function dispatchIntegration(req, res) {
   if (!target) return res.status(400).json({ error: 'Target integration missing' });
 
   try {
-    const investigation = await repo.getInvestigation(id);
+    const investigation = await repo.getInvestigation(id, req.user.id);
     if (!investigation) return res.status(404).json({ error: 'Investigation not found' });
 
     const results = await repo.getInvestigationResults(id);
