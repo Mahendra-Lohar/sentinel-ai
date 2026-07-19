@@ -7,11 +7,12 @@ export const statsRoutes = Router();
 statsRoutes.use(requireAuth);
 
 statsRoutes.get('/', asyncHandler(async (req, res) => {
+  const userId = req.user.id;
   const [overview, trend, severity, recent] = await Promise.all([
-    statsRepo.getStats(),
-    statsRepo.getTrend(30),
-    statsRepo.getSeverityBreakdown(),
-    statsRepo.getRecentActivity(8)
+    statsRepo.getStats(userId),
+    statsRepo.getTrend(30, userId),
+    statsRepo.getSeverityBreakdown(userId),
+    statsRepo.getRecentActivity(8, userId)
   ]);
   res.json({ overview, trend, severity, recent });
 }));

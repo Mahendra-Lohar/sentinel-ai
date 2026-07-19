@@ -7,7 +7,7 @@ export async function dispatchIntegration(investigation, results, target) {
   const rootCause = results.rootCauseData?.rootCause || 'Unknown root cause';
   const severity = investigation.severity || 'P1';
   
-  const settings = await getAllSettings();
+  const settings = await getAllSettings(investigation.created_by);
   
   if (target === 'slack') {
     const webhookUrl = settings.slack_webhook_url;
