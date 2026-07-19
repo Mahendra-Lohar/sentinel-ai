@@ -11,7 +11,7 @@ app.use('/api/settings', settingsRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: env.clientUrl,
+    origin: (origin, callback) => callback(null, true),
     credentials: true
   }
 });
